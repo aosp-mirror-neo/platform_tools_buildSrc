@@ -71,7 +71,6 @@ grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc" }
 gson = "com.google.code.gson:gson:2.15.0"
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 intellij-annotations = "org.jetbrains:annotations:13.0"
-javawriter = "com.squareup:javawriter:2.5.0"
 jcommander = "com.beust:jcommander:1.78"
 javapoet = "com.squareup:javapoet:1.13.0"
 jaxb-runtime = { module = "org.glassfish.jaxb:jaxb-runtime", version.ref = "jaxb" }
