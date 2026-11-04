@@ -109,7 +109,7 @@ protobuf-util = { module = "com.google.protobuf:protobuf-java-util", version.ref
 proto-compiler = { module = "com.google.protobuf:protoc", version.ref = "protoCompiler" }
 protobuf-gradle-plugin = "com.google.protobuf:protobuf-gradle-plugin:0.10.0"
 
-tensorflow-lite-metadata = "org.tensorflow:tensorflow-lite-metadata:0.2.0"
+tensorflow-lite-metadata = "org.tensorflow:tensorflow-lite-metadata:0.4.4"
 
 #When updating jacoco versions also update JacocoOptions.DEFAULT_VERSION
 jacoco-agent = { module = "org.jacoco:org.jacoco.agent", version.ref = "jacoco" }
