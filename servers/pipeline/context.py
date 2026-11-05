@@ -119,6 +119,7 @@ class BuildContext:
             not self.change_info
             or getattr(self.args, "aosp", False)
             or self.env.is_windows()
+            or self.env.is_cross_compile()
             or not self.env.is_release
         ):
             return []
@@ -126,6 +127,7 @@ class BuildContext:
         cache_key = (
             id(self.change_info),
             bool(self.env.is_windows()),
+            bool(self.env.is_cross_compile()),
             bool(self.env.is_release),
         )
         if self._clang_tidy_cache and self._clang_tidy_cache[0] == cache_key:

@@ -82,6 +82,7 @@ class PipelineTest(unittest.TestCase):
         self.mock_env.is_macos.return_value = False
         self.mock_env.is_windows.return_value = False
         self.mock_env.is_linux.return_value = True
+        self.mock_env.is_cross_compile.return_value = False
         self.mock_env.dist_dir = Path("/tmp/dist")
         self.mock_env.crashpad_symbol_server_key = "key123"
 
@@ -383,6 +384,51 @@ class PipelineTest(unittest.TestCase):
         stage.execute(self.ctx)
         windows_targets = mock_bzl.test.call_args[0][0]
         self.assertNotIn("@gfxstream//:gfxstream_unit_tests", windows_targets)
+
+    @patch("pipeline.stages.bazel.BazelCmd")
+    def test_cross_compile_presubmit_skips_clang_tidy_flags(self, mock_bazel_cmd_cls):
+        mock_bzl = MagicMock()
+        mock_bazel_cmd_cls.return_value.with_build_flags.return_value = mock_bzl
+        mock_bzl.query_artifacts.return_value = [Path("/out/release_arm64.zip")]
+
+        tidy_json = '[{"name": "emulator/base/foo.cc", "lines": [[10, 20]]}]'
+        mock_change_info = MagicMock()
+        mock_change_info.get_clang_tidy_line_filter_json_by_project.return_value = (
+            tidy_json
+        )
+        self.ctx.change_info = mock_change_info
+        self.mock_env.target_platform = "linux_aarch64"
+        self.mock_env.is_cross_compile.return_value = True
+
+        self.assertEqual(self.ctx.get_clang_tidy_build_flags(), [])
+        mock_change_info.get_clang_tidy_line_filter_json_by_project.assert_not_called()
+
+        rel_stage = stages.ReleasePackageStage()
+        rel_stage.execute(self.ctx)
+        mock_bzl.build.assert_called_once()
+        mock_bzl.test.assert_not_called()
+        rel_build_flags = list(
+            mock_bazel_cmd_cls.return_value.with_build_flags.call_args[0][0]
+        )
+        self.assertNotIn(
+            "--@aemu//tools/clang_tidy:clang_tidy_enabled=true", rel_build_flags
+        )
+
+        mock_bzl.build.reset_mock()
+        unit_stage = stages.UnitTestStage()
+        unit_stage.execute(self.ctx)
+        mock_bzl.build.assert_called_once()
+        mock_bzl.test.assert_not_called()
+        unit_build_flags = list(
+            mock_bazel_cmd_cls.return_value.with_build_flags.call_args[0][0]
+        )
+        self.assertNotIn(
+            "--@aemu//tools/clang_tidy:clang_tidy_enabled=true", unit_build_flags
+        )
+        unit_inv_flags = mock_bzl.build.call_args[1]["invocation_flags"]
+        self.assertNotIn(
+            "--modify_execution_info=ClangTidy.*=+no-remote", unit_inv_flags
+        )
 
     @patch("pipeline.stages.reclaim_and_stabilize_resources")
     @patch("pipeline.stages.bazel.BazelCmd")
@@ -747,6 +793,7 @@ class ContextCopyTest(unittest.TestCase):
         mock_env.is_release = True
         mock_env.is_windows.return_value = False
         mock_env.is_macos.return_value = False
+        mock_env.is_cross_compile.return_value = False
 
         args = argparse.Namespace(dist=str(mock_env.dist_dir), change_info=None)
         ctx = BuildContext(args, mock_env)
@@ -797,6 +844,7 @@ class ContextCopyTest(unittest.TestCase):
         mock_env.is_release = True
         mock_env.is_windows.return_value = False
         mock_env.is_macos.return_value = False
+        mock_env.is_cross_compile.return_value = False
 
         args = argparse.Namespace(dist=str(mock_env.dist_dir), change_info=None)
         ctx = BuildContext(args, mock_env)
