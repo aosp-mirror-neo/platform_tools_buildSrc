@@ -27,7 +27,7 @@ antlr4 = "org.antlr:antlr4:4.5.3"
 apache-commons-io = "commons-io:commons-io:2.22.0"
 apache-commons-lang = "org.apache.commons:commons-lang3:3.21.0"
 apache-compress = "org.apache.commons:commons-compress:1.27.1"
-apache-httpmime = "org.apache.httpcomponents:httpmime:4.5.6"
+apache-httpmime = "org.apache.httpcomponents:httpmime:4.5.14"
 
 asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
 asm-analysis = { module = "org.ow2.asm:asm-analysis", version.ref = "asm" }
