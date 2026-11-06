@@ -16,7 +16,7 @@ kotlinForAgpBuild = "2.3.20"
 jetifier = "1.0.0-beta10"
 protobuf = "3.25.5"
 protoCompiler = "3.25.5"
-jacoco = "0.8.14"
+jacoco = "0.8.16"
 googleApiServices = "v1-rev82-1.22.0"
 junitPlatform = "1.13.3"
 
