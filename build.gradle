@@ -25,7 +25,6 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
 
-    implementation libs.jarjar
     implementation libs.apache.commons.io
     implementation libs.guava
     implementation libs.gson
