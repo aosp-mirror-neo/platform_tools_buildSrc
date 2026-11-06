@@ -79,7 +79,7 @@ javax-inject = "javax.inject:javax.inject:1"
 jimfs = "com.google.jimfs:jimfs:1.1"
 jopt = "net.sf.jopt-simple:jopt-simple:4.9"
 juniversalchardet = "com.googlecode.juniversalchardet:juniversalchardet:1.0.3"
-gradle-tooling-api = "org.gradle:gradle-tooling-api:9.7.1"
+gradle-tooling-api = "org.gradle:gradle-tooling-api:9.8.2"
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 
 # Kotlin dependencies used to compile and build the Android Gradle plugin itself
