@@ -11,7 +11,10 @@ grpc = "1.69.1"
 guava = "33.7.2-jre"
 jaxb = "2.3.9"
 kotlinCoroutines = "1.10.2"
+# Minimum supported KGP version (also used to compile AGP itself against KGP APIs)
 kotlin = "2.2.10"
+# Default KGP version recommended by AGP (published via Gradle 'prefer' constraint)
+defaultKgp = "2.4.20"
 kotlinForAgpBuild = "2.3.20"
 jetifier = "1.0.0-beta10"
 protobuf = "3.25.5"
