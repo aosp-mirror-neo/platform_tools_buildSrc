@@ -64,7 +64,6 @@ com-android-tools-repository = { module = "com.android.tools:repository", versio
 com-android-tools-sdklib = { module = "com.android.tools:sdklib", version.ref = "base" }
 com-android-tools-sdkCommon = { module = "com.android.tools:sdk-common", version.ref = "base" }
 com-android-zipflinger = { module = "com.android:zipflinger", version.ref = "build" }
-aapt2-proto = "com.android.tools.build:aapt2-proto:7.0.0-beta04-7396180"
 dokka-core = "org.jetbrains.dokka:dokka-core:2.2.0"
 
 flatbuffers = "com.google.flatbuffers:flatbuffers-java:25.2.10"
