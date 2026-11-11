@@ -47,4 +47,9 @@ tasks.named("kotlinSourcesJar").configure {
 
 kotlin {
     coreLibrariesVersion = libs.versions.kotlin.get()
+    // Kotlin 2.4 changed the default moduleName from project.name to "${project.group}:${project.name}".
+    // Keep project.name so Kotlin internal name mangling (e.g. $gradle_core) matches Java callers and Bazel.
+    compilerOptions {
+        moduleName.set(project.name)
+    }
 }
