@@ -64,7 +64,7 @@ com-android-tools-repository = { module = "com.android.tools:repository", versio
 com-android-tools-sdklib = { module = "com.android.tools:sdklib", version.ref = "base" }
 com-android-tools-sdkCommon = { module = "com.android.tools:sdk-common", version.ref = "base" }
 com-android-zipflinger = { module = "com.android:zipflinger", version.ref = "build" }
-dokka-core = "org.jetbrains.dokka:dokka-core:2.2.0"
+dokka-core = "org.jetbrains.dokka:dokka-core:2.3.0"
 
 flatbuffers = "com.google.flatbuffers:flatbuffers-java:25.2.10"
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc" }
