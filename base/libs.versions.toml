@@ -109,7 +109,7 @@ jetifier-processor = { module = "com.android.tools.build.jetifier:jetifier-proce
 protobuf = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
 protobuf-util = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf" }
 proto-compiler = { module = "com.google.protobuf:protoc", version.ref = "protoCompiler" }
-protobuf-gradle-plugin = "com.google.protobuf:protobuf-gradle-plugin:0.10.0"
+protobuf-gradle-plugin = "com.google.protobuf:protobuf-gradle-plugin:0.10.1"
 
 tensorflow-lite-metadata = "org.tensorflow:tensorflow-lite-metadata:0.4.4"
 
