@@ -38,6 +38,7 @@ class BuildScriptTest(unittest.TestCase):
         self.mock_env.target_platform = "linux_x64"
         self.mock_env.is_presubmit = True
         self.mock_env.is_release = True
+        self.mock_env.is_cross_compile.return_value = False
         self.mock_env.dist_dir = Path("/tmp/dist")
         self.mock_env.tmp_dir = None
         self.mock_env.repo_root = Path("/repo")

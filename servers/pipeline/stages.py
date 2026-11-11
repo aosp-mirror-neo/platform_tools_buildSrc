@@ -51,23 +51,13 @@ def _is_env_memory_constrained(env: build_environment.BuildEnvironment) -> bool:
     return bool(env.is_macos())
 
 
-def _is_env_cross_compile(env: build_environment.BuildEnvironment) -> bool:
-    """Checks if the environment is cross-compiling, handling unconfigured mocks safely."""
-    if hasattr(env, "is_cross_compile"):
-        res = env.is_cross_compile()
-        if MagicMock is not None and isinstance(res, MagicMock):
-            return False
-        return bool(res)
-    return False
-
-
 def _should_collect_coverage(env: build_environment.BuildEnvironment) -> bool:
     """Returns True when unit tests should run under `bazel coverage` (native Linux/macOS release postsubmit builds)."""
     if (
         env.is_presubmit
         or not env.is_release
         or env.is_windows()
-        or _is_env_cross_compile(env)
+        or env.is_cross_compile()
     ):
         return False
     for check_fn, prefix in (
@@ -207,15 +197,11 @@ class ReleasePackageStage(Stage):
             self.release_targets.append("@qemu//google/toolchain:zip")
             test_targets.append("@qemu//google/toolchain:generated_diff")
 
-        tidy_build_flags = ctx.get_clang_tidy_build_flags()
-        is_cross_compile = _is_env_cross_compile(ctx.env)
-
-        if is_cross_compile:
+        if ctx.env.is_cross_compile():
             inv = (
                 BazelInvocationBuilder("build", ctx.env, ctx.startup_options)
                 .with_targets(self.release_targets)
                 .with_common_flags(ctx.build_options)
-                .with_build_flags(tidy_build_flags)
                 .with_profile(ctx.bazel_logs_dir / "command.profile.gz")
                 .build_invocation()
             )
@@ -231,6 +217,7 @@ class ReleasePackageStage(Stage):
                 timeout=inv.timeout,
             )
         else:
+            tidy_build_flags = ctx.get_clang_tidy_build_flags()
             targets = list(self.release_targets) + test_targets
             inv_builder = (
                 BazelInvocationBuilder("test", ctx.env, ctx.startup_options)
@@ -295,11 +282,12 @@ class UnitTestStage(Stage):
             unit_test_targets.append("-@goldfish//emulator:external_unit_tests")
         elif not ctx.env.is_presubmit:
             unit_test_targets.append("@goldfish//emulator:external_unit_tests")
+        is_cross_compile = ctx.env.is_cross_compile()
         if (
             ctx.env.is_linux() or ctx.env.is_macos()
-        ) and not _is_env_cross_compile(ctx.env):
+        ) and not is_cross_compile:
             unit_test_targets.append("@gfxstream//:gfxstream_unit_tests")
-        if _is_env_cross_compile(ctx.env) and ctx.env.target_platform.startswith(
+        if is_cross_compile and ctx.env.target_platform.startswith(
             "windows"
         ):
             unit_test_targets.extend(
@@ -312,24 +300,16 @@ class UnitTestStage(Stage):
                 ]
             )
 
-        tidy_build_flags = ctx.get_clang_tidy_build_flags()
-        is_cross_compile = _is_env_cross_compile(ctx.env)
-
         if is_cross_compile:
-            inv_builder = (
+            inv = (
                 BazelInvocationBuilder("build", ctx.env, ctx.startup_options)
                 .with_targets(unit_test_targets)
                 .with_common_flags(ctx.build_options)
-                .with_build_flags(tidy_build_flags)
                 .with_thin_lto_disabled()
                 .with_build_tests_only()
                 .with_profile(ctx.bazel_logs_dir / "unit_tests.profile.gz")
+                .build_invocation()
             )
-            if tidy_build_flags:
-                inv_builder.with_invocation_flags(
-                    ["--modify_execution_info=ClangTidy.*=+no-remote"]
-                )
-            inv = inv_builder.build_invocation()
 
             bzl = bazel.BazelCmd(
                 ctx.env, startup_options=inv.startup_options
@@ -345,6 +325,7 @@ class UnitTestStage(Stage):
             )
             return
 
+        tidy_build_flags = ctx.get_clang_tidy_build_flags()
         verb = "coverage" if _should_collect_coverage(ctx.env) else "test"
 
         inv_builder = (
@@ -450,7 +431,7 @@ class EtsIntegrationStage(Stage):
             not getattr(ctx.args, "aosp", False)
             and "trusty" not in getattr(ctx.args, "target", "")
             and not ctx.env.is_windows()
-            and not _is_env_cross_compile(ctx.env)
+            and not ctx.env.is_cross_compile()
             and ctx.env.is_release
         )
 
@@ -543,7 +524,7 @@ class SymbolUploadStage(Stage):
         ]
         aux_targets = (
             [sym_upload.Symuploader.SYM_UPLOAD_TARGET]
-            if ctx.env.crashpad_symbol_server_key and not _is_env_cross_compile(ctx.env)
+            if ctx.env.crashpad_symbol_server_key and not ctx.env.is_cross_compile()
             else []
         )
         targets = list(self.symbol_targets) + aux_targets
