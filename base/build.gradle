@@ -11,7 +11,7 @@ buildscript {
         classpath libs.kotlin.gradle.plugin.forAgpBuild
         classpath libs.kotlin.reflect.forAgpBuild
         classpath libs.guava
-        classpath "gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:0.8.1"
+        classpath "gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.4.1"
     }
 }
 
