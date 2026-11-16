@@ -20,13 +20,11 @@ jetifier = "1.0.0-beta10"
 protobuf = "3.25.9"
 protoCompiler = "3.25.5"
 jacoco = "0.8.16"
-googleApiServices = "v1-rev82-1.22.0"
 junitPlatform = "1.13.3"
 
 [libraries]
 
 
-antlr4 = "org.antlr:antlr4:4.5.3"
 apache-commons-io = "commons-io:commons-io:2.22.0"
 apache-commons-lang = "org.apache.commons:commons-lang3:3.21.0"
 apache-compress = "org.apache.commons:commons-compress:1.27.1"
@@ -70,16 +68,16 @@ flatbuffers = "com.google.flatbuffers:flatbuffers-java:25.2.10"
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc" }
 gson = "com.google.code.gson:gson:2.15.0"
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
-intellij-annotations = "org.jetbrains:annotations:13.0"
-jcommander = "com.beust:jcommander:1.78"
 javapoet = "com.squareup:javapoet:1.13.0"
 jaxb-runtime = { module = "org.glassfish.jaxb:jaxb-runtime", version.ref = "jaxb" }
 javax-inject = "javax.inject:javax.inject:1"
 jimfs = "com.google.jimfs:jimfs:1.1"
 jopt = "net.sf.jopt-simple:jopt-simple:4.9"
 juniversalchardet = "com.googlecode.juniversalchardet:juniversalchardet:1.0.3"
+gradle-idea-ext = "gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.4.1"
 gradle-tooling-api = "org.gradle:gradle-tooling-api:9.8.2"
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
+kotlinx-cli-jvm = "org.jetbrains.kotlinx:kotlinx-cli-jvm:0.3.1"
 
 # Kotlin dependencies used to compile and build the Android Gradle plugin itself
 kotlin-gradle-plugin-forAgpBuild = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinForAgpBuild" }
@@ -131,6 +129,7 @@ junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", v
 junit-platform-reporting = { module = "org.junit.platform:junit-platform-reporting", version.ref = "junitPlatform" }
 mockito-core = "org.mockito:mockito-core:5.20.0"
 mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:5.4.0"
+slf4j-simple = "org.slf4j:slf4j-simple:1.7.2"
 smali-dexlib = "com.android.tools.smali:smali-dexlib2:3.0.9"
 truth = "com.google.truth:truth:0.44"
 tink = "com.google.crypto.tink:tink:1.15.0"

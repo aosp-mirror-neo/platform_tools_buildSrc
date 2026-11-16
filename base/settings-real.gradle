@@ -78,7 +78,6 @@ def projects = [
         [projectName: ':base:kotlin-multiplatform-models', projectPath: ''],
         [projectName: ':base:testing-infrastructure:device-pool:device-provider', projectPath: ''],
         [projectName: ':external:fat32lib', projectPath: ''],
-        [projectName: ':data-binding', projectPath: ''],
         [projectName: ':base:utp:gradle-work-action-api', projectPath: ''],
         [projectName: ':base:perf-logger', projectPath: ''],
         [projectName: ':base:android-test:coverage:coverage-rt', projectPath: 'base/android-test/coverage/agent/runtime'],
