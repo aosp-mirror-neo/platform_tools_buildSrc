@@ -296,7 +296,6 @@ class UnitTestStage(Stage):
                     "-@goldfish//emulator/launcher/...",
                     "-@goldfish//emulator/tests/...",
                     "-@goldfish//emulator/tools/...",
-                    "-@goldfish//emulator/videobridge/java/...",
                 ]
             )
 
