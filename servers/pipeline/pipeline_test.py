@@ -430,6 +430,16 @@ class PipelineTest(unittest.TestCase):
             "--modify_execution_info=ClangTidy.*=+no-remote", unit_inv_flags
         )
 
+        # Windows cross-compile excludes unsupported native packages without stale videobridge/java
+        mock_bzl.build.reset_mock()
+        self.mock_env.target_platform = "windows_aarch64"
+        unit_stage.execute(self.ctx)
+        win_cross_targets = mock_bzl.build.call_args[0][0]
+        self.assertIn("-@goldfish//emulator/crashreport/...", win_cross_targets)
+        self.assertNotIn(
+            "-@goldfish//emulator/videobridge/java/...", win_cross_targets
+        )
+
     @patch("pipeline.stages.reclaim_and_stabilize_resources")
     @patch("pipeline.stages.bazel.BazelCmd")
     def test_ets_integration_stage(self, mock_bazel_cmd_cls, mock_reclaim):
